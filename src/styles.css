@@ -1,0 +1,9 @@
+html, body{
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    font-family: 'OpenSans', sans-serif;
+    background-image: linear-gradient(to top right, rgb(72,90,199), rgb(185,88,189));
+}
