@@ -7,3 +7,7 @@ body {
     font-family: 'OpenSans', sans-serif;
     background-image: linear-gradient(to top right, rgb(72,90,199), rgb(185,88,189));
 }
+
+a{
+    cursor:pointer;
+}

@@ -9,7 +9,8 @@ import {Router} from "@angular/router";
     styleUrls: ['../auth.component.css']
 })
 export class LoginComponent implements OnInit {
-    loginError: boolean = false;
+    loginError: boolean;
+    loginErrorMessage: string;
 
     constructor(private authService: AuthService, private router: Router) {
     }
@@ -21,27 +22,18 @@ export class LoginComponent implements OnInit {
         let email = loginForm.form.value.email;
         let password = loginForm.form.value.password;
 
-        this.authService.login(email, password).subscribe(user  => {
-            if(user){
-                this.router.navigate(['/dashboard'])
-            }
+        this.authService.login(email, password).subscribe(response  => {
+            this.loginError = false;
+            this.loginErrorMessage = "";
+        }, err => {
+            console.log(err);
+            this.loginError = true;
+            this.loginErrorMessage = err.error;
         });
+    }
 
-        /*this.authService.login(email,password).subscribe(success => {
-            console.log(success);
-
-
-            /!*if (success && this.authService.isUserLoggedIn()) {
-                this.errorMessage = '';
-                this.message = this.authService.getSalutation();
-                if ( this.redirectUrl ) {
-                    this.router.navigate([this.redirectUrl]) // redirect user to initially requested url
-                        .then(() => this.redirectUrl = undefined);
-                }
-            } else {
-                this.errorMessage = 'Invalid username or password. Please try again.';
-            }*!/
-        });*/
+    redirectToRegister(){
+        this.router.navigate(['register']);
     }
 
 }

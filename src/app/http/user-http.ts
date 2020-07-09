@@ -9,21 +9,18 @@ export class UserBackendService {
     url:string = "http://localhost:9000";
 
     constructor(private http: HttpClient) {
-
-    }
-
-    findUserById(id: number): Observable<User> {
-        return this.http.get<User>(this.url + '/api/users/' + id);
-    }
-
-    findUserByEmail(email: string): Observable<User>{
-        return this.findAllUsers().map(users => {
-            return users.find(user => user.email === email);
-        })
     }
 
     findAllUsers():Observable<User[]>{
         return this.http.get<User[]>(this.url + '/api/users');
+    }
+
+    authenticate(credentials: object): Observable<User>{
+        return this.http.post<User>(this.url + '/api/authenticate', credentials);
+    }
+
+    createUser(user: User): Observable<User>{
+        return this.http.post<User>(this.url + '/api/users', user);
     }
 }
 

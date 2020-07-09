@@ -1,25 +1,35 @@
 <div class="login-container">
-    <div class="login-form-h1">Sign In</div>
+    <div class="login-form-h1">Register</div>
 
-    <form id="loginForm" (ngSubmit)="onLoginSubmit(loginForm)" #loginForm="ngForm">
+    <form id="registerForm" (ngSubmit)="onRegisterSubmit(registerForm)" #registerForm="ngForm">
+        <div class="login-form-img-container">
+            <img id="login-form-pfp" src="{{pfpSrc}}">
+        </div>
+
         <div class="login-form-field">
-            <input id="email" type="text" name="email" placeholder="Email" ngModel required>
+            <input id="username" type="text" name="username" placeholder="Username" ngModel required>
+        </div>
+
+        <div class="login-form-field">
+            <input id="email" type="text" name="email" placeholder="Email" email ngModel required>
         </div>
 
         <div class="login-form-field">
             <input id="password" type="password" name="password" placeholder="Password" ngModel required>
         </div>
 
-        <div class="login-form-btn-container">
-            <button id="login" type="submit" class="sign-in" [disabled]="!loginForm.valid">LOGIN</button>
+        <div class="login-form-field">
+            <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm Password" ngModel required>
         </div>
-        <div class="remember-me">
-            <input type="checkbox"> Remember me
-        </div>
-        <div *ngIf="loginError">Wrong email or password</div>
 
-        <div class="login-form-info">
-            Don't have an account? Sign up <a href="register.html">here</a>.
+        <div class="login-form-field">
+            <input id="profilePic" type="text" name="profilePic" placeholder="Profile Picture URL" [(ngModel)]="pfpInput" (blur)="onPfpChange()">
+        </div>
+
+        <div *ngIf="registerError" class="auth-error">{{registerErrorMessage}}</div>
+
+        <div class="login-form-btn-container">
+            <button id="login" type="submit" class="sign-in" [disabled]="!registerForm.valid">REGISTER</button>
         </div>
     </form>
 </div>

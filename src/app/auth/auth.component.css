@@ -49,7 +49,7 @@ textarea:focus, input:focus{
 }
 
 .login-form-btn-container{
-    margin: 50px 0px;
+    margin: 70px 0 20px 0px;
     height: 50px;
 }
 
@@ -77,11 +77,23 @@ textarea:focus, input:focus{
     color:rgb(229, 9, 20);
 }
 
-.remember-me{
-    margin-top: -25px;
-}
-
 #login-form-wrong-login{
     padding-top: 30px;
     color: rgba(255, 130, 0, 0.91);
+}
+
+.login-form-img-container{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login-form-pfp{
+    width: 80px;
+    height: 80px;
+}
+
+.auth-error{
+    color: #ff525c;
+    position: fixed;
 }

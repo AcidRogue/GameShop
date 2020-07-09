@@ -11,12 +11,11 @@ export class AuthService {
 
     }
 
-    login(email: string, password: string): Observable<User> {
-        return this.userBackendService.findUserByEmail(email)
-            .map(user => {
-                if (user && user.password === password) {
-                    return user;
-                }
-            });
+    login(email: string, password: string): any {
+        return this.userBackendService.authenticate({Email: email, Password: password});
+    }
+
+    register(user: User): any{
+        return this.userBackendService.createUser(user);
     }
 }

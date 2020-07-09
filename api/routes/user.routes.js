@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongodb = require('mongodb');
 const indicative = require('indicative').validator;
 
 router.get('/', function (req, res) {
@@ -15,17 +14,18 @@ router.post('/', function (req, res) {
     const db = req.app.locals.db;
     const user = req.body;
     indicative.validate(user, {
-        email: 'required|email',
-        firstName: 'required|string|min:2',
-        lastName: 'required|string|min:2',
-        password: 'required|string|min:6|max:20',
-        role: 'required'
+        Email: 'required|email',
+        Username: 'required|string',
+        Password: 'required|string|min:2|max:20',
+        FirstName: 'string',
+        LastName: 'string',
+        Role: 'required'
     }).then(() => {
         const collection = db.collection('users');
 
-        collection.findOne({email: user.email}).then(existingUser =>{
+        collection.findOne({Email: user.Email}).then(existingUser =>{
             if(existingUser){
-                res.status(303).json({message: "User with this email already exists"})
+                res.status(303).json("User with this email already exists")
             }
             else{
                 collection.insertOne(user).then(result => {
@@ -33,7 +33,7 @@ router.post('/', function (req, res) {
                         res.status(201).json({user: user, message: "Created new user"});
                     }
                     else{
-                        res.status(500).json({message: "Problem with creating a user."});
+                        res.status(500).json({message: "Problem with creating a user"});
                     }
                 })
             }

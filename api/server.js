@@ -7,7 +7,9 @@ const MongoClient = require('mongodb').MongoClient;
 const cors = require('cors');
 
 const rootPath = path.normalize(path.join(__dirname, '..'));
+
 const userRoutes = require('./routes/user.routes.js');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/api/users', userRoutes);
+app.use('/api/authenticate', authRoutes);
 
 
 app.use(function (req, res, next) {

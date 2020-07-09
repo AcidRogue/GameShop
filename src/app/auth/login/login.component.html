@@ -10,16 +10,18 @@
             <input id="password" type="password" name="password" placeholder="Password" ngModel required>
         </div>
 
+        <div *ngIf="loginError" class="auth-error">{{loginErrorMessage}}</div>
+
         <div class="login-form-btn-container">
             <button id="login" type="submit" class="sign-in" [disabled]="!loginForm.valid">LOGIN</button>
         </div>
+
         <div class="remember-me">
             <input type="checkbox"> Remember me
         </div>
-        <div *ngIf="loginError">Wrong email or password</div>
 
         <div class="login-form-info">
-            Don't have an account? Sign up <a href="register.html">here</a>.
+            Don't have an account? Sign up <a (click)="redirectToRegister()">here</a>.
         </div>
     </form>
 </div>
