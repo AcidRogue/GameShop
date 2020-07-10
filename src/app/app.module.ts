@@ -5,10 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {AuthModule} from "./auth/auth.module";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {StorageService} from "./services/storage.service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +20,7 @@ import {AuthModule} from "./auth/auth.module";
     AuthModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

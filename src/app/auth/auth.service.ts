@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
 import {UserBackendService} from "../http/user-http";
 import {User} from "../models/user";
 
@@ -8,7 +7,6 @@ import {User} from "../models/user";
 })
 export class AuthService {
     constructor(private userBackendService: UserBackendService) {
-
     }
 
     login(email: string, password: string): any {

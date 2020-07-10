@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
     selector: 'app-login',
@@ -12,10 +13,15 @@ export class LoginComponent implements OnInit {
     loginError: boolean;
     loginErrorMessage: string;
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router, private storageService: StorageService) {
     }
 
     ngOnInit(): void {
+        var user = this.storageService.getCurrentUser();
+
+        if (user) {
+            this.router.navigate(['/dashboard']);
+        }
     }
 
     onLoginSubmit(loginForm: NgForm) {
@@ -25,8 +31,9 @@ export class LoginComponent implements OnInit {
         this.authService.login(email, password).subscribe(response  => {
             this.loginError = false;
             this.loginErrorMessage = "";
+            this.storageService.setCookie("currentUser", response.user);
+            this.router.navigate(['dashboard']);
         }, err => {
-            console.log(err);
             this.loginError = true;
             this.loginErrorMessage = err.error;
         });
@@ -35,7 +42,6 @@ export class LoginComponent implements OnInit {
     redirectToRegister(){
         this.router.navigate(['register']);
     }
-
 }
 
 

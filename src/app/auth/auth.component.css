@@ -4,7 +4,7 @@ textarea:focus, input:focus{
 
 .login-container, .register-container{
     margin: 0 auto;
-    top: 150px;
+    top: 100px;
     width: 370px;
     min-height: 600px;
     border-radius: 15px;

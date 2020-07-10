@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
     selector: 'app-register',
@@ -15,10 +16,15 @@ export class RegisterComponent implements OnInit {
     pfpSrc: string = "https://3.bp.blogspot.com/-qDc5kIFIhb8/UoJEpGN9DmI/AAAAAAABl1s/BfP6FcBY1R8/s1600/BlueHead.jpg";
     pfpInput: string;
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService, private router: Router, private storageService: StorageService) {
     }
 
     ngOnInit(): void {
+        var user = this.storageService.getCurrentUser();
+
+        if (user) {
+            this.router.navigate(['/dashboard']);
+        }
     }
 
     onRegisterSubmit(registerForm: NgForm) {
@@ -46,7 +52,7 @@ export class RegisterComponent implements OnInit {
         this.authService.register(user).subscribe(response => {
             this.registerError = false;
             this.registerErrorMessage = "";
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
         }, err => {
             this.registerError = true;
             this.registerErrorMessage = err.error;
