@@ -1,5 +1,37 @@
-<div class="dashboard-container">
-    <div class="current-user-container">
+<div class="dashboard-container" *ngIf="this.isDataAvailable">
+    <div class="dashboard-top">
         <img id="user-pfp" src="{{currentUser.ProfileImage}}">
+        <div class="user-data">Welcome, {{currentUser.Username}}</div>
+        <div class="user-options-icon">
+            <i class="fa-2x fa fa-cog"></i>
+        </div>
+    </div>
+
+    <div class="dashboard-main">
+        <div class="A">
+            <div class="server-list">
+                <div *ngFor="let server of this.currentUser.SubscribedServers" class="server-row" id="{{server._id}}"  (click)="onServerChange(server._id)">
+                    <div class="server-img">
+                        <img src="{{server.ServerImage}}">
+                    </div>
+                    <div class="server-name">{{server.Name}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="B">
+
+        </div>
+        <div class="C">
+            <div class="users-list">
+                <div *ngFor="let subscribedUser of this.selectedServer.SubscribedUsers" class="user-row">
+                    <div class="subscribed-user-img">
+                        <img src="{{subscribedUser.ProfileImage}}">
+                    </div>
+                    <div class="subscribed-user-name">
+                        {{subscribedUser.Username}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

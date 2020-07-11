@@ -6,8 +6,24 @@ html, body{
 body {
     font-family: 'OpenSans', sans-serif;
     background-image: linear-gradient(to top right, rgb(72,90,199), rgb(185,88,189));
+    color: #2d2d2d;
 }
 
 a{
     cursor:pointer;
+}
+
+.fa{
+    cursor: pointer;
+}
+
+/*Scroll*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #b7b7b7;
 }

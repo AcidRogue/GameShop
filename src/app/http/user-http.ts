@@ -11,6 +11,10 @@ export class UserBackendService {
     constructor(private http: HttpClient) {
     }
 
+    getUserById(id: string): Observable<User>{
+        return this.http.get<User>(this.url + '/api/users/' + id);
+    }
+
     findAllUsers():Observable<User[]>{
         return this.http.get<User[]>(this.url + '/api/users');
     }

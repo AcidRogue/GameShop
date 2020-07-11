@@ -13,13 +13,15 @@ export class LoginComponent implements OnInit {
     loginError: boolean;
     loginErrorMessage: string;
 
-    constructor(private authService: AuthService, private router: Router, private storageService: StorageService) {
+    constructor(private authService: AuthService,
+                private router: Router,
+                private storageService: StorageService) {
     }
 
     ngOnInit(): void {
-        var user = this.storageService.getCurrentUser();
+        var userId = this.storageService.getCookie("currentUserId");
 
-        if (user) {
+        if (userId) {
             this.router.navigate(['/dashboard']);
         }
     }
@@ -31,8 +33,8 @@ export class LoginComponent implements OnInit {
         this.authService.login(email, password).subscribe(response  => {
             this.loginError = false;
             this.loginErrorMessage = "";
-            this.storageService.setCookie("currentUser", response.user);
-            this.router.navigate(['dashboard']);
+            this.storageService.setCookie("currentUserId", response.user._id);
+            this.router.navigate(['/dashboard']);
         }, err => {
             this.loginError = true;
             this.loginErrorMessage = err.error;

@@ -10,6 +10,8 @@ const rootPath = path.normalize(path.join(__dirname, '..'));
 
 const userRoutes = require('./routes/user.routes.js');
 const authRoutes = require('./routes/auth.routes');
+const serverRoutes = require('./routes/server.routes');
+const subscriptionRoutes = require('./routes/subscription.routes');
 
 const app = express();
 
@@ -22,7 +24,8 @@ app.use(cors());
 
 app.use('/api/users', userRoutes);
 app.use('/api/authenticate', authRoutes);
-
+app.use('/api/servers', serverRoutes);
+app.use('/api/subscribe', subscriptionRoutes);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

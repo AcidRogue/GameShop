@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import {AuthService} from "./auth.service";
 import {UserBackendService} from "../http/user-http";
 import {RegisterComponent} from "./register/register.component";
+import {ServerBackendService} from "../http/server-http";
 
 const loginRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,7 +20,8 @@ const loginRoutes: Routes = [
   ],
   providers: [
       AuthService,
-      UserBackendService
+      UserBackendService,
+      ServerBackendService
   ]
 })
 export class AuthRoutingModule {}

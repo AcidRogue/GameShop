@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const indicative = require('indicative').validator;
+const mongodb = require('mongodb');
 
 router.get('/', function (req, res) {
     const db = req.app.locals.db;
@@ -9,6 +10,20 @@ router.get('/', function (req, res) {
         res.send(results);
     })
 });
+
+router.get('/:userId', function (req,res) {
+    const db = req.app.locals.db;
+    const params = req.params;
+
+    db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}).then(user =>{
+        if(user){
+            res.status(200).json(user);
+        }
+        else{
+            res.status(404).json(`User with id ${params.userId} does not exist`);
+        }
+    })
+})
 
 router.post('/', function (req, res) {
     const db = req.app.locals.db;
@@ -19,7 +34,8 @@ router.post('/', function (req, res) {
         Password: 'required|string|min:2|max:20',
         FirstName: 'string',
         LastName: 'string',
-        Role: 'required'
+        Role: 'required',
+        SubscribedServers: 'required|array'
     }).then(() => {
         const collection = db.collection('users');
 
@@ -28,9 +44,10 @@ router.post('/', function (req, res) {
                 res.status(303).json("User with this email already exists")
             }
             else{
+                user.CreatedDate = new Date().toISOString();
                 collection.insertOne(user).then(result => {
                     if(result.result.ok === 1){
-                        res.status(201).json({user: user, message: "Created new user"});
+                        res.status(201).json({user: existingUser, message: "Created new user"});
                     }
                     else{
                         res.status(500).json({message: "Problem with creating a user"});

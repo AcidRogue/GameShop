@@ -3,6 +3,7 @@ import {NgForm} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {StorageService} from "../../services/storage.service";
+import {User} from "../../models/user";
 
 @Component({
     selector: 'app-register',
@@ -20,9 +21,9 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        var user = this.storageService.getCurrentUser();
+        var userId = this.storageService.getCookie("currentUserId");
 
-        if (user) {
+        if (userId) {
             this.router.navigate(['/dashboard']);
         }
     }
@@ -39,14 +40,15 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-        let user = {
+        let user: User = {
             FirstName: "",
             LastName: "",
             Username: username,
             Email: email,
             Password: password1,
             ProfileImage: this.pfpSrc,
-            Role: 1
+            Role: 1,
+            SubscribedServers: []
         };
 
         this.authService.register(user).subscribe(response => {
