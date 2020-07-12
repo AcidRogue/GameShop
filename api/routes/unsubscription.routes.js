@@ -12,18 +12,16 @@ router.get('/:userId/:serverId', function (req,res) {
 
     db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}).then(user => {
         if(user){
-            delete user.SubscribedServers;
             db.collection('servers').findOne({_id: new mongodb.ObjectID(params.serverId)}).then(server => {
                 if(server){
-                    delete server.SubscribedUsers;
-                    db.collection('users').updateOne({_id: new mongodb.ObjectID(params.userId)}, {$addToSet: {SubscribedServers: server}}).then(r1 =>{
+                    db.collection('users').updateOne({_id: new mongodb.ObjectID(params.userId)}, {$pull: {SubscribedServers: {_id: server._id}}}).then(r1 =>{
                         if(r1.result.ok === 1){
-                            db.collection('servers').updateOne({_id: new mongodb.ObjectID(params.serverId)}, {$addToSet: {SubscribedUsers: user}}).then(r2 =>{
+                            db.collection('servers').updateOne({_id: new mongodb.ObjectID(params.serverId)}, {$pull: {SubscribedUsers: {_id: user._id}}}).then(r2 =>{
                                 if(r2.result.ok === 1){
-                                    res.status(200).json({status: 1, message: `User ${user.Username} successfully subscribed to ${server.Name}`});
+                                    res.status(200).json({status: 1, message: `User ${user.Username} successfully unsubscribed from ${server.Name}`});
                                 }
                                 else{
-                                    res.status(500).json("Problem with subscribing to the server");
+                                    res.status(500).json("Problem with unsubscribing from the server");
                                 }
                             });
                         }

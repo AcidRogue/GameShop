@@ -12,6 +12,7 @@ const userRoutes = require('./routes/user.routes.js');
 const authRoutes = require('./routes/auth.routes');
 const serverRoutes = require('./routes/server.routes');
 const subscriptionRoutes = require('./routes/subscription.routes');
+const unsubscriptionRoutes = require('./routes/unsubscription.routes');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/authenticate', authRoutes);
 app.use('/api/servers', serverRoutes);
 app.use('/api/subscribe', subscriptionRoutes);
+app.use('/api/unsubscribe', unsubscriptionRoutes);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

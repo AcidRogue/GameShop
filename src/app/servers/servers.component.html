@@ -1,0 +1,26 @@
+<div class="servers-container" *ngIf="isDataAvailable">
+    <div class="dashboard-top">
+        <img id="user-pfp" src="{{currentUser.ProfileImage}}">
+        <div class="user-data">Welcome, {{currentUser.Username}}</div>
+        <div class="user-options-icon">
+            <i class="fa-2x fa fa-cog"></i>
+        </div>
+    </div>
+
+    <div class="servers-main">
+        <div class="servers-list" *ngIf="showList">
+            <div *ngFor="let server of serverList" class="server-row" (click)="server.IsSubscribed? unsubscribe(server._id) : subscribe(server._id)">
+                <div class="server-img" style="float: left; margin-right: 20px;">
+                    <img src="{{server.ServerImage}}">
+                </div>
+                <div class="server-name">{{server.Name}}</div>
+                <div class="server-description">{{server.Description}}</div>
+                <div class="server-subscribe">
+                    <i class="fa add-server" [ngClass]="{'fa-minus-circle': server.IsSubscribed, 'fa-plus-circle': !server.IsSubscribed}"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

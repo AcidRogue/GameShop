@@ -6,7 +6,7 @@ const mongodb = require('mongodb');
 router.get('/', function (req, res) {
     const db = req.app.locals.db;
 
-    db.collection('servers').find().toArray().then(results => {
+    db.collection('servers').find({}).project({SubscribedUsers: 0}).toArray().then(results => {
         res.status(200).send(results);
     })
 });

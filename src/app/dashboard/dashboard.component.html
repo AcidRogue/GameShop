@@ -10,11 +10,18 @@
     <div class="dashboard-main">
         <div class="A">
             <div class="server-list">
-                <div *ngFor="let server of this.currentUser.SubscribedServers" class="server-row" id="{{server._id}}"  (click)="onServerChange(server._id)">
-                    <div class="server-img">
+                <div class="server-row" (click)="serverList()">
+                    <div class="server-img" style="text-align: center">
+                        <i class="fa fa-plus-circle add-server"></i>
+                    </div>
+                    <div class="server-name" style="text-align: center;">Browse Servers</div>
+                </div>
+
+                <div *ngFor="let server of this.subscribedServers" class="server-row" id="{{server._id}}"  (click)="onServerChange(server._id)">
+                    <div class="server-img" style="text-align: center">
                         <img src="{{server.ServerImage}}">
                     </div>
-                    <div class="server-name">{{server.Name}}</div>
+                    <div class="server-name" style="text-align: center;">{{server.Name}}</div>
                 </div>
             </div>
         </div>
@@ -23,7 +30,7 @@
         </div>
         <div class="C">
             <div class="users-list">
-                <div *ngFor="let subscribedUser of this.selectedServer.SubscribedUsers" class="user-row">
+                <div *ngFor="let subscribedUser of this.subscribedUsers" class="user-row">
                     <div class="subscribed-user-img">
                         <img src="{{subscribedUser.ProfileImage}}">
                     </div>

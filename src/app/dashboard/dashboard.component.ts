@@ -7,13 +7,14 @@ import {ServerBackendService} from "../http/server-http";
 
 @Component({
     selector: 'app-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css']
+    templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
     currentUser:User;
     isDataAvailable = false;
     selectedServer;
+    subscribedServers: any[];
+    subscribedUsers: any[];
 
     constructor(private storageService: StorageService,
                 private router: Router,
@@ -33,18 +34,30 @@ export class DashboardComponent implements OnInit {
                 this.currentUser = user;
 
                 if(user.SubscribedServers && user.SubscribedServers.length !== 0){
-                    this.serverBackendService.getServerById(user.SubscribedServers[0]._id).subscribe(resp=>{
-                        if(resp){
+                    this.subscribedServers = user.SubscribedServers;
+
+                    this.serverBackendService.getServerById(user.SubscribedServers[0]._id).subscribe(resp => {
+                        if(resp) {
                             this.selectedServer = resp;
+                            this.subscribedUsers = this.selectedServer.SubscribedUsers;
                             this.isDataAvailable = true;
                         }
                     })
+                }
+                else{
+                    this.isDataAvailable = true;
                 }
             }
         });
     }
 
     onServerChange(serverId){
-        console.log(serverId);
+        this.serverBackendService.getServerById(serverId).subscribe(resp => {
+
+        })
+    }
+
+    serverList(){
+        this.router.navigate(['/servers']);
     }
 }

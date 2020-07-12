@@ -15,5 +15,18 @@ export class ServerBackendService {
         return this.http.get<Server>(this.url + '/api/servers/' + id);
     }
 
+    getServers(): Observable<Server[]>{
+        return this.http.get<Server[]>(this.url + '/api/servers');
+    }
+
+    subscribeToServer(userId: string, serverId: string): Observable<any>{
+        return this.http.get(this.url + '/api/subscribe/' + userId + "/" + serverId);
+    }
+
+    unsubscribeFromServer(userId: string, serverId: string): Observable<any>{
+        return this.http.get(this.url + '/api/unsubscribe/' + userId + "/" + serverId);
+    }
 }
+
+
 
