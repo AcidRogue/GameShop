@@ -6,15 +6,13 @@ import {UserBackendService} from "../http/user-http";
 
 @Component({
     selector: 'app-servers',
-    templateUrl: './servers.component.html',
-    styleUrls: ['./servers.component.css']
+    templateUrl: './servers.component.html'
 })
 export class ServersComponent implements OnInit {
     currentUser;
     isDataAvailable = false;
     serverList: any[];
     currentUserId: string;
-    showList: boolean = false;
 
     constructor(private router: Router,
                 private storageService: StorageService,
@@ -23,7 +21,7 @@ export class ServersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        var userId = this.storageService.getCookie("currentUserId");
+        let userId = this.storageService.getCookie("currentUserId");
 
         if (!userId) {
             this.router.navigate(['/login']);
@@ -47,7 +45,7 @@ export class ServersComponent implements OnInit {
         this.serverBackendService.getServers().subscribe(servers => {
             if (servers) {
                 this.serverList = servers;
-                for(let i = 0; i < this.serverList.length; i++){
+                for(let i = 0; i < servers.length; i++){
                     this.serverList[i].IsSubscribed = false;
                     for(let j = 0; j < this.currentUser.SubscribedServers.length; j++){
                         if(this.serverList[i]._id === this.currentUser.SubscribedServers[j]._id){
@@ -56,13 +54,11 @@ export class ServersComponent implements OnInit {
                     }
                 }
                 this.isDataAvailable = true;
-                this.showList = true;
             }
         });
     }
 
     subscribe(serverId: string){
-        this.showList = false;
         this.serverBackendService.subscribeToServer(this.currentUser._id, serverId).subscribe(response => {
             if(response.status === 1){
                 this.reRenderServerList();
@@ -71,7 +67,6 @@ export class ServersComponent implements OnInit {
     }
 
     unsubscribe(serverId: string){
-        this.showList = false;
         this.serverBackendService.unsubscribeFromServer(this.currentUser._id, serverId).subscribe(response => {
             if(response.status === 1){
                 this.reRenderServerList();

@@ -26,5 +26,9 @@ export class UserBackendService {
     createUser(user: User): Observable<User>{
         return this.http.post<User>(this.url + '/api/users', user);
     }
+
+    updateUser(user: User): Observable<User>{
+        return this.http.put<User>(this.url + '/api/users', user);
+    }
 }
 

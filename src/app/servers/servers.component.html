@@ -8,7 +8,7 @@
     </div>
 
     <div class="servers-main">
-        <div class="servers-list" *ngIf="showList">
+        <div class="servers-list">
             <div *ngFor="let server of serverList" class="server-row" (click)="server.IsSubscribed? unsubscribe(server._id) : subscribe(server._id)">
                 <div class="server-img" style="float: left; margin-right: 20px;">
                     <img src="{{server.ServerImage}}">

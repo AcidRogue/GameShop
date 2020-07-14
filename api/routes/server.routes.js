@@ -23,7 +23,7 @@ router.get('/:serverId', function (req,res) {
             res.status(404).json(`Server with id ${params.serverId} does not exist`);
         }
     })
-})
+});
 
 router.post('/', function (req, res) {
     const db = req.app.locals.db;
@@ -49,5 +49,14 @@ router.post('/', function (req, res) {
         res.status(500).json({errors: errors})
     });
 });
+
+router.get('/messages/:serverId', function(req,res){
+    const db = req.app.locals.db;
+    const params = req.params;
+
+    db.collection('messages').find({"Server._id": new mongodb.ObjectID(params.serverId)}).toArray().then(messages => {
+        res.status(200).json(messages);
+    });
+})
 
 module.exports = router;

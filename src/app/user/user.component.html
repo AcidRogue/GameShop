@@ -1,0 +1,43 @@
+<div class="login-container" *ngIf="isDataAvailable">
+    <div class="login-form-h1">User Information</div>
+
+    <form id="userForm" (ngSubmit)="onUserFormSubmit(userForm)" #userForm="ngForm">
+        <div class="login-form-img-container">
+            <img id="login-form-pfp" src="{{currentUser.ProfileImage}}">
+        </div>
+
+        <div class="login-form-field">
+            <input type="text" name="Username" placeholder="Username" required [(ngModel)]="currentUser.Username">
+        </div>
+
+        <div class="login-form-field">
+            <input type="text" name="Email" placeholder="Email" email ngModel required [(ngModel)]="currentUser.Email">
+        </div>
+
+        <div class="login-form-field">
+            <input type="text" name="FirstName" placeholder="Email" ngModel required [(ngModel)]="currentUser.FirstName">
+        </div>
+
+        <div class="login-form-field">
+            <input type="text" name="LastName" placeholder="Email" ngModel required [(ngModel)]="currentUser.LastName">
+        </div>
+
+        <div class="login-form-field">
+            <input type="password" name="Password" placeholder="Password" ngModel>
+        </div>
+
+        <div class="login-form-field">
+            <input type="password" name="ConfirmPassword" placeholder="Confirm Password" ngModel required>
+        </div>
+
+        <div class="login-form-field">
+            <input type="text" name="ProfilePic" placeholder="Profile Picture URL" [(ngModel)]="currentUser.ProfileImage" (blur)="onPfpChange($event.target.value)">
+        </div>
+
+        <div class="auth-error">{{errorMessage}}</div>
+
+        <div class="login-form-btn-container">
+            <button id="login" type="submit" class="sign-in">SAVE</button>
+        </div>
+    </form>
+</div>

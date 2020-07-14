@@ -15,7 +15,7 @@ router.get('/:userId', function (req,res) {
     const db = req.app.locals.db;
     const params = req.params;
 
-    db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}).then(user =>{
+    db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}, {projection:{Password: 0}}).then(user =>{
         if(user){
             res.status(200).json(user);
         }

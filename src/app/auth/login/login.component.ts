@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        var userId = this.storageService.getCookie("currentUserId");
+        let userId = this.storageService.getCookie("currentUserId");
 
         if (userId) {
             this.router.navigate(['/dashboard']);

@@ -14,14 +14,14 @@ export class RegisterComponent implements OnInit {
     registerError: boolean;
     registerErrorMessage: string;
 
-    pfpSrc: string = "https://3.bp.blogspot.com/-qDc5kIFIhb8/UoJEpGN9DmI/AAAAAAABl1s/BfP6FcBY1R8/s1600/BlueHead.jpg";
+    pfpSrc: string = "";
     pfpInput: string;
 
     constructor(private authService: AuthService, private router: Router, private storageService: StorageService) {
     }
 
     ngOnInit(): void {
-        var userId = this.storageService.getCookie("currentUserId");
+        let userId = this.storageService.getCookie("currentUserId");
 
         if (userId) {
             this.router.navigate(['/dashboard']);
@@ -29,10 +29,10 @@ export class RegisterComponent implements OnInit {
     }
 
     onRegisterSubmit(registerForm: NgForm) {
-        var email = registerForm.form.value.email;
-        var username = registerForm.form.value.username;
-        var password1 = registerForm.form.value.password;
-        var password2 = registerForm.form.value.confirmPassword;
+        let email = registerForm.form.value.email;
+        let username = registerForm.form.value.username;
+        let password1 = registerForm.form.value.password;
+        let password2 = registerForm.form.value.confirmPassword;
 
         if (password1 !== password2) {
             this.registerError = true;
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
     }
 
     onPfpChange() {
-        var img = new Image();
+        let img = new Image();
         img.onload = () => {
             this.pfpSrc = this.pfpInput;
         };

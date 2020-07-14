@@ -17,7 +17,7 @@
                     <div class="server-name" style="text-align: center;">Browse Servers</div>
                 </div>
 
-                <div *ngFor="let server of this.subscribedServers" class="server-row" id="{{server._id}}"  (click)="onServerChange(server._id)">
+                <div *ngFor="let server of this.subscribedServers" class="server-row" id="{{server._id}}" (click)="onServerChange(server._id)" [class.selected-server]="server._id === selectedServer._id">
                     <div class="server-img" style="text-align: center">
                         <img src="{{server.ServerImage}}">
                     </div>
@@ -25,18 +25,41 @@
                 </div>
             </div>
         </div>
-        <div class="B">
 
+        <div class="B">
+            <div class="messages-list">
+                <div class="server-info">
+                    <div class="server-info-name">{{selectedServer? selectedServer.Name : ""}}</div>
+                    <div class="server-info-description">{{selectedServer? selectedServer.Description : ""}}</div>
+                </div>
+
+                <div class="messages">
+                    <div *ngFor="let message of currentMessages" class="message-row">
+                        <div class="message-img">
+                            <img src="{{message.Sender.ProfileImage}}" class="message-profile-image">
+                        </div>
+                        <div class="message-text">
+                            <div class="message-header">{{message.Sender.Username + " - " + dateToLocal(message.CreatedDate)}}</div>
+                            <div class="message-content">{{message.Content}}</div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="send-message-container">
+                    <input class="send-message-input" type="text" placeholder="Message {{selectedServer? selectedServer.Name: ''}}" (keyup.enter)="sendMessage($event)" [attr.disabled]="selectedServer? null:''">
+                </div>
+            </div>
         </div>
+
         <div class="C">
             <div class="users-list">
                 <div *ngFor="let subscribedUser of this.subscribedUsers" class="user-row">
                     <div class="subscribed-user-img">
                         <img src="{{subscribedUser.ProfileImage}}">
                     </div>
-                    <div class="subscribed-user-name">
-                        {{subscribedUser.Username}}
-                    </div>
+                    <div class="subscribed-user-name">{{subscribedUser.Username}}</div>
                 </div>
             </div>
         </div>

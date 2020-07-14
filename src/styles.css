@@ -13,6 +13,10 @@ a{
     cursor:pointer;
 }
 
+input{
+    box-sizing:border-box;
+}
+
 .fa{
     cursor: pointer;
 }
@@ -64,6 +68,8 @@ a{
 
 .dashboard-main{
     height: 100%;
+    padding-top: 20px;
+    display: flex;
 }
 
 .A{
@@ -74,18 +80,15 @@ a{
 
 .B{
     display: inline-block;
-    width: 70%;
+    width: 66%;
     height: 85%;
+    padding: 0 20px;
 }
 
 .C{
     display: inline-block;
     width: 15%;
     height: 85%;
-}
-
-.A, .B, .C{
-    margin-top: 20px;
 }
 
 .server-list{
@@ -117,7 +120,7 @@ a{
     cursor: pointer;
 }
 
-.server-row:hover{
+.server-row:not(.selected-server):hover{
     background-color: #e8e8e8;
     border: 1px solid #dadada;
 }
@@ -148,6 +151,9 @@ a{
     vertical-align: middle;
     padding: 12px 0;
     margin-left: 5px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .server-name{
@@ -205,6 +211,107 @@ a{
     bottom: 40px;
     position: relative;
 }
+
+.messages-list{
+    width: 100%;
+    height: 80%;
+}
+
+.messages{
+    width: 100%;
+    height: 93%;
+    padding-top: 20px;
+    overflow-y: scroll;
+    padding-right: 20px;
+}
+
+.send-message-container{
+    width: 100%;
+    border-top: 1px solid #dadada;
+    padding-top: 20px;
+}
+
+.send-message-input{
+    width: 100%;
+    border: 1px solid #dadada;
+    outline: none;
+    background-color: white;
+    font-size: 17px;
+    line-height: 23px;
+    border-radius:  10px;
+    height: 35px;
+    padding-left: 10px;
+}
+
+.send-message-input::placeholder{
+    color: #bcbcbc;
+}
+
+.server-info{
+    text-align: center;
+    border-bottom: 1px solid #dadada;
+    padding-bottom: 20px;
+    color: #555555;
+    height: 10%;
+}
+
+.server-info-name{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.server-info-description{
+    font-size: 18px;
+}
+
+.selected-server{
+    background-color: #e6ebff;
+    border: 1px solid #dadada;
+}
+
+.message-row{
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dadada;
+    margin-bottom: 10px;
+}
+
+.left-message{
+    float: left;
+}
+
+.right-message{
+    float: right;
+}
+
+.message-profile-image{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.message-content{
+    color: #414141;
+}
+
+.message-header{
+    color: #aeaeae;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.message-img, .message-text{
+    display: inline-block;
+    height: 100%;
+}
+
+.message-img{
+    float: left;
+}
+
+
 
 
 

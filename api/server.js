@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -13,8 +14,7 @@ const authRoutes = require('./routes/auth.routes');
 const serverRoutes = require('./routes/server.routes');
 const subscriptionRoutes = require('./routes/subscription.routes');
 const unsubscriptionRoutes = require('./routes/unsubscription.routes');
-
-const app = express();
+const messageRoutes = require('./routes/message.routes');
 
 app.set('app', path.join(rootPath, 'app'));
 app.use(logger('dev'));
@@ -28,9 +28,10 @@ app.use('/api/authenticate', authRoutes);
 app.use('/api/servers', serverRoutes);
 app.use('/api/subscribe', subscriptionRoutes);
 app.use('/api/unsubscribe', unsubscriptionRoutes);
+app.use('/api/messages', messageRoutes);
 
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
