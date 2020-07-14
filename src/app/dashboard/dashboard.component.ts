@@ -7,7 +7,6 @@ import {ServerBackendService} from "../http/server-http";
 import {MessageBackendService} from "../http/message-http";
 import * as $ from 'jquery';
 import * as moment from 'moment';
-import {formatDate} from "@angular/common";
 
 @Component({
     selector: 'app-dashboard',
@@ -49,7 +48,10 @@ export class DashboardComponent implements OnInit {
                             this.subscribedUsers = this.selectedServer.SubscribedUsers;
                             $(`#${this.selectedServer._id}`).addClass('selected-server');
 
-                            this.getServerMessages();
+                            this.messageBackendService.getServerMessages(this.selectedServer._id).subscribe(messages => {
+                                this.currentMessages = messages;
+                                this.isDataAvailable = true;
+                            });
                         }
                     })
                 } else {
@@ -110,7 +112,6 @@ export class DashboardComponent implements OnInit {
         let that = this;
         that.messageBackendService.getServerMessages(that.selectedServer._id).subscribe(messages => {
             that.currentMessages = messages;
-            that.isDataAvailable = true;
         });
     }
 

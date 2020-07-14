@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
     }
 
     onUserFormSubmit(userForm: NgForm){
-        let _id = this.currentUser._id;
+        let userId = this.currentUser._id;
         let username = userForm.form.value.Username;
         let email = userForm.form.value.Email;
         let password = userForm.form.value.Password;
@@ -45,13 +45,12 @@ export class UserComponent implements OnInit {
         let lastName = userForm.form.value.LastName;
 
         let newUser:any = {
-            _id: _id,
-            UserName: username,
+            Username: username,
             Email: email,
             FirstName: firstName,
             LastName: lastName,
             ProfileImage: this.currentUser.ProfileImage
-        }
+        };
 
         if(!username){
             this.errorMessage = "Username required";
@@ -71,12 +70,9 @@ export class UserComponent implements OnInit {
 
         this.errorMessage = "";
 
-        console.log(newUser);
-        return;
-
-       /* this.userBackEndService.updateUser().subscribe(result => {
-
-        });*/
+        this.userBackEndService.updateUser(userId, newUser).subscribe(result => {
+            console.log(result);
+        });
     }
 
     onPfpChange(value:string) {
@@ -89,5 +85,4 @@ export class UserComponent implements OnInit {
         };
         img.src = value;
     }
-
 }

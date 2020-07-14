@@ -11,15 +11,14 @@ router.get('/', function (req, res) {
     })
 });
 
-router.get('/:serverId', function (req,res) {
+router.get('/:serverId', function (req, res) {
     const db = req.app.locals.db;
     const params = req.params;
 
-    db.collection('servers').findOne({_id: new mongodb.ObjectID(params.serverId)}).then(server =>{
-        if(server){
+    db.collection('servers').findOne({_id: new mongodb.ObjectID(params.serverId)}).then(server => {
+        if (server) {
             res.status(200).json(server);
-        }
-        else{
+        } else {
             res.status(404).json(`Server with id ${params.serverId} does not exist`);
         }
     })
@@ -50,13 +49,43 @@ router.post('/', function (req, res) {
     });
 });
 
-router.get('/messages/:serverId', function(req,res){
+router.get('/messages/:serverId', function (req, res) {
     const db = req.app.locals.db;
     const params = req.params;
 
-    db.collection('messages').find({"Server._id": new mongodb.ObjectID(params.serverId)}).toArray().then(messages => {
-        res.status(200).json(messages);
-    });
-})
+    db.collection('messages').aggregate([
+        {
+            $match: {
+                "ServerId": new mongodb.ObjectID(params.serverId)
+            }
+        },
+        {
+            $lookup: {
+                from: 'servers',
+                localField: 'ServerId',
+                foreignField: '_id',
+                as: 'Server'
+            }
+        },
+        {
+            $unwind: "$Server"
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'SenderId',
+                foreignField: '_id',
+                as: 'Sender'
+            }
+        },
+        {
+            $unwind: "$Sender"
+        }
+    ]).toArray().then(messages => {
+        if(messages){
+            res.status(200).json(messages);
+        }
+    })
+});
 
 module.exports = router;

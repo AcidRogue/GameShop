@@ -27,8 +27,8 @@ export class UserBackendService {
         return this.http.post<User>(this.url + '/api/users', user);
     }
 
-    updateUser(user: User): Observable<User>{
-        return this.http.put<User>(this.url + '/api/users', user);
+    updateUser(userId:string, user: User): Observable<User>{
+        return this.http.put<User>(this.url + '/api/users/' + userId, user);
     }
 }
 

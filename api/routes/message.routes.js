@@ -6,32 +6,53 @@ router.get('/:messageId', function (req, res) {
     const db = req.app.locals.db;
     const params = req.params;
 
-    db.collection('servers').findOne({_id: new mongodb.ObjectID(params.messageId)}).then(message => {
+    db.collection('messages').aggregate([
+        {
+            $lookup: {
+                from: 'servers',
+                localField: 'ServerId',
+                foreignField: '_id',
+                as: 'Server'
+            }
+        },
+        {
+            $unwind: "$Server"
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'SenderId',
+                foreignField: '_id',
+                as: 'User'
+            }
+        },
+        {
+            $unwind: "$User"
+        }
+    ]).toArray().then(message => {
         if (message) {
             res.status(200).json(message);
         } else {
             res.status(404).json(`Message with id ${params.messageId} does not exist`);
         }
     })
-})
+});
 
 router.post('/', function (req, res) {
     const db = req.app.locals.db;
     const body = req.body;
 
     const message = {
+        SenderId: mongodb.ObjectID(body.SenderId),
+        ServerId: mongodb.ObjectID(body.ServerId),
         CreatedDate: new Date().toISOString(),
         Content: body.Content
     };
 
     db.collection('users').findOne({_id: new mongodb.ObjectID(body.SenderId)}).then(user => {
-        if(user){
-            delete user.SubscribedServers;
-            message.Sender = user;
+        if (user) {
             db.collection('servers').findOne({_id: new mongodb.ObjectID(body.ServerId)}).then(server => {
-                if(server === 1){
-                    message.Server = server;
-                    delete message.Server.SubscribedUsers;
+                if (server) {
                     db.collection('messages').insertOne(message).then(r2 => {
                         if (r2.result.ok === 1) {
                             res.status(201).json(message);
@@ -39,13 +60,11 @@ router.post('/', function (req, res) {
                             res.status(500).json({message: "Problem with creating a message"});
                         }
                     })
-                }
-                else{
+                } else {
                     res.status(404).send("Server not found");
                 }
             })
-        }
-        else{
+        } else {
             res.status(404).send("User not found");
         }
     });

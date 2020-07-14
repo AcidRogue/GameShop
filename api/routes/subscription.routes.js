@@ -13,6 +13,8 @@ router.get('/:userId/:serverId', function (req,res) {
     db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}).then(user => {
         if(user){
             delete user.SubscribedServers;
+            delete user.Password;
+            delete user.Email;
             db.collection('servers').findOne({_id: new mongodb.ObjectID(params.serverId)}).then(server => {
                 if(server){
                     delete server.SubscribedUsers;
