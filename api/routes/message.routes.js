@@ -68,6 +68,33 @@ router.post('/', function (req, res) {
             res.status(404).send("User not found");
         }
     });
+});
+
+router.put('/:messageId', function (req, res) {
+    const db = req.app.locals.db;
+    const body = req.body;
+    const messageId = req.params.messageId;
+
+    db.collection('messages').findOneAndUpdate({_id: new mongodb.ObjectID(messageId)}, {
+        $set: {
+            Content: body.Content
+        }
+    }).then(message => {
+        if (message.ok === 1 && message.lastErrorObject.updatedExisting) {
+            res.status(200).json();
+        }
+    });
+});
+
+router.delete('/:messageId', function (req, res) {
+    const db = req.app.locals.db;
+    const messageId = req.params.messageId;
+
+    db.collection('messages').remove({_id: new mongodb.ObjectID(messageId)}).then(result => {
+        if(result.result.ok){
+            res.status(200).json();
+        }
+    })
 })
 
 module.exports = router;

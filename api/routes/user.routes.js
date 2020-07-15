@@ -61,16 +61,20 @@ router.put('/:userId', function (req, res) {
     const db = req.app.locals.db;
     const user = req.body;
     const userId = req.params.userId;
-    console.log(userId)
-    console.log(user);
 
     const collection = db.collection('users');
 
-    collection.updateOne({_id: new mongodb.ObjectID(userId)}, {$set: user}).then(result => {
-        if (result.result.ok === 1) {
-            res.status(201).json({user: "", message: `Updated user with id ${user._id}`});
+    collection.findOne({Email: user.Email}).then(existingUser => {
+        if (existingUser && userId != existingUser._id) {
+            res.status(303).json("User with this email already exists")
         } else {
-            res.status(500).json({message: `Problem with updating user ${user._id}`});
+            collection.updateOne({_id: new mongodb.ObjectID(userId)}, {$set: user}).then(result => {
+                if (result.result.ok === 1) {
+                    res.status(20).json({message: `Updated user with id ${user._id}`});
+                } else {
+                    res.status(500).json({message: `Problem with updating user ${user._id}`});
+                }
+            })
         }
     })
 })

@@ -71,7 +71,11 @@ export class UserComponent implements OnInit {
         this.errorMessage = "";
 
         this.userBackEndService.updateUser(userId, newUser).subscribe(result => {
-            console.log(result);
+            if(result){
+                this.router.navigate(['/dashboard']);
+            }
+        }, err => {
+            this.errorMessage = err.error;
         });
     }
 

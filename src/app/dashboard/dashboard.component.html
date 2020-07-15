@@ -2,8 +2,12 @@
     <div class="dashboard-top">
         <img id="user-pfp" src="{{currentUser.ProfileImage}}">
         <div class="user-data">Welcome, {{currentUser.Username}}</div>
-        <div class="user-options-icon">
+        <div class="user-options-icon" (click)="handleMenuClick()">
             <i class="fa-2x fa fa-cog"></i>
+
+            <div class="dropdown-menu">
+                <div (click)="openProfile()">My Profile</div>
+            </div>
         </div>
     </div>
 
@@ -42,11 +46,19 @@
                             <div class="message-header">{{message.Sender.Username + " - " + dateToLocal(message.CreatedDate)}}</div>
                             <div class="message-content">{{message.Content}}</div>
                         </div>
+                        <div class="message-right">
+                            <div class="delete-message" (click)="deleteMessage(message._id)">
+                                <i class="fa fa-trash-o manage-message"></i>
+                            </div>
+                            <div class="edit-message" (click)="editMessage(message.Content, message._id)">
+                                <i class="fa fa-edit manage-message"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="send-message-container">
-                    <input class="send-message-input" type="text" placeholder="Message {{selectedServer? selectedServer.Name: ''}}" (keyup.enter)="sendMessage($event)" [attr.disabled]="selectedServer? null:''">
+                    <input value="{{selectedMessage}}" class="send-message-input" type="text" placeholder="Message {{selectedServer? selectedServer.Name: ''}}" (keyup.enter)="sendMessage($event)" [attr.disabled]="selectedServer? null:''">
                 </div>
             </div>
         </div>

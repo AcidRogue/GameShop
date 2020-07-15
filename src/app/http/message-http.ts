@@ -19,6 +19,13 @@ export class MessageBackendService {
         return this.http.post(this.url + '/api/messages', messageObj);
     }
 
+    deleteMessage(messageId: string){
+        return this.http.delete(this.url + '/api/messages/' + messageId);
+    }
+
+    updateMessage(messageId: string, message){
+        return this.http.put(this.url + '/api/messages/' + messageId, message);
+    }
 }
 
 

@@ -21,6 +21,9 @@ export class DashboardComponent implements OnInit {
     messages: any[];
     currentMessages: any[];
 
+    selectedMessage:string = "";
+    selectedMessageId:string = "";
+
     constructor(private storageService: StorageService,
                 private router: Router,
                 private userBackendService: UserBackendService,
@@ -95,17 +98,32 @@ export class DashboardComponent implements OnInit {
             return;
         }
 
-        let messageObj = {
-            Content: message,
-            SenderId: this.currentUser._id,
-            ServerId: this.selectedServer._id
-        };
+        if(this.selectedMessageId){ //Updating a message
+            let messageObj = {
+                Content: message
+            };
 
-        event.target.value = "";
+            this.messageBackendService.updateMessage(this.selectedMessageId, messageObj).subscribe(result => {
+                this.getServerMessages();
+            });
 
-        this.messageBackendService.sendMessage(messageObj).subscribe(result => {
-            this.getServerMessages();
-        })
+            event.target.value = "";
+            this.selectedMessage = "";
+            this.selectedMessageId = "";
+        }
+        else{ //Creating a message
+            let messageObj = {
+                Content: message,
+                SenderId: this.currentUser._id,
+                ServerId: this.selectedServer._id
+            };
+
+            event.target.value = "";
+
+            this.messageBackendService.sendMessage(messageObj).subscribe(result => {
+                this.getServerMessages();
+            })
+        }
     }
 
     getServerMessages() {
@@ -126,4 +144,20 @@ export class DashboardComponent implements OnInit {
     onUserSelect(userId:string){
         this.router.navigate(['/users/' + userId]);
     }
+
+    openProfile(){
+        this.router.navigate(['/user/' + this.currentUser._id]);
+    }
+
+    editMessage(message:string, messageId: string){
+        this.selectedMessage = message;
+        this.selectedMessageId = messageId;
+    }
+
+    deleteMessage(messageId:string){
+        this.messageBackendService.deleteMessage(messageId).subscribe(result => {
+            this.getServerMessages();
+        })
+    }
+
 }
