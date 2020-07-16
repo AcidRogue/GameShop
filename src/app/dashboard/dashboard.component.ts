@@ -20,9 +20,10 @@ export class DashboardComponent implements OnInit {
     subscribedUsers: any[];
     messages: any[];
     currentMessages: any[];
-
-    selectedMessage:string = "";
-    selectedMessageId:string = "";
+    selectedMessage: string = "";
+    selectedMessageId: string = "";
+    searchString: string = "";
+    searchUserId: string = "";
 
     constructor(private storageService: StorageService,
                 private router: Router,
@@ -98,7 +99,7 @@ export class DashboardComponent implements OnInit {
             return;
         }
 
-        if(this.selectedMessageId){ //Updating a message
+        if (this.selectedMessageId) { //Updating a message
             let messageObj = {
                 Content: message
             };
@@ -110,8 +111,7 @@ export class DashboardComponent implements OnInit {
             event.target.value = "";
             this.selectedMessage = "";
             this.selectedMessageId = "";
-        }
-        else{ //Creating a message
+        } else { //Creating a message
             let messageObj = {
                 Content: message,
                 SenderId: this.currentUser._id,
@@ -133,31 +133,50 @@ export class DashboardComponent implements OnInit {
         });
     }
 
-    dateToLocal(date: moment.Moment): string{
+    dateToLocal(date: moment.Moment): string {
         return this.formatDate(moment.utc(date).local().format());
     }
 
-    formatDate(date:string): string{
+    formatDate(date: string): string {
         return moment(date).format("DD/MM/YYYY hh:mm");
     }
 
-    onUserSelect(userId:string){
+    onUserSelect(userId: string) {
         this.router.navigate(['/users/' + userId]);
     }
 
-    openProfile(){
+    openProfile() {
         this.router.navigate(['/user/' + this.currentUser._id]);
     }
 
-    editMessage(message:string, messageId: string){
+    searchMessages() {
+        let searchObj:any = {
+            ServerId: this.selectedServer._id
+        };
+        if (this.searchString) {
+            searchObj.Content = this.searchString;
+        }
+        if(this.searchUserId){
+            searchObj.SenderId = this.searchUserId;
+        }
+        this.messageBackendService.searchMessages(searchObj).subscribe(messages => {
+            this.currentMessages = messages;
+        })
+    }
+
+    editMessage(message: string, messageId: string) {
         this.selectedMessage = message;
         this.selectedMessageId = messageId;
     }
 
-    deleteMessage(messageId:string){
+    deleteMessage(messageId: string) {
         this.messageBackendService.deleteMessage(messageId).subscribe(result => {
             this.getServerMessages();
         })
     }
 
+    logout(){
+        localStorage.clear();
+        this.router.navigate(['/login']);
+    }
 }

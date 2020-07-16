@@ -12,13 +12,15 @@ import {MessageBackendService} from "./http/message-http";
 import {ServerBackendService} from "./http/server-http";
 import {UserBackendService} from "./http/user-http";
 import { UserComponent } from './user/user.component';
+import { UserPopupComponent } from './user-popup/user-popup.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DashboardComponent,
         ServersComponent,
-        UserComponent
+        UserComponent,
+        UserPopupComponent
     ],
     imports: [
         BrowserModule,

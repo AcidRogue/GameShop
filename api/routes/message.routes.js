@@ -75,9 +75,13 @@ router.put('/:messageId', function (req, res) {
     const body = req.body;
     const messageId = req.params.messageId;
 
+    let editedDate = new Date().toISOString();
+
     db.collection('messages').findOneAndUpdate({_id: new mongodb.ObjectID(messageId)}, {
         $set: {
-            Content: body.Content
+            Content: body.Content,
+            Edited: true,
+            EditedDate: editedDate
         }
     }).then(message => {
         if (message.ok === 1 && message.lastErrorObject.updatedExisting) {
@@ -91,7 +95,7 @@ router.delete('/:messageId', function (req, res) {
     const messageId = req.params.messageId;
 
     db.collection('messages').remove({_id: new mongodb.ObjectID(messageId)}).then(result => {
-        if(result.result.ok){
+        if (result.result.ok) {
             res.status(200).json();
         }
     })

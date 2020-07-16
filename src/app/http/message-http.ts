@@ -26,6 +26,10 @@ export class MessageBackendService {
     updateMessage(messageId: string, message){
         return this.http.put(this.url + '/api/messages/' + messageId, message);
     }
+
+    searchMessages(searchObj: {}): Observable<Message[]>{
+        return this.http.post<Message[]>(this.url + '/api/search', searchObj);
+    }
 }
 
 

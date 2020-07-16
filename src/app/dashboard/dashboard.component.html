@@ -2,11 +2,12 @@
     <div class="dashboard-top">
         <img id="user-pfp" src="{{currentUser.ProfileImage}}">
         <div class="user-data">Welcome, {{currentUser.Username}}</div>
-        <div class="user-options-icon" (click)="handleMenuClick()">
+        <div class="user-options-icon">
             <i class="fa-2x fa fa-cog"></i>
 
             <div class="dropdown-menu">
                 <div (click)="openProfile()">My Profile</div>
+                <div (click)="logout()">Logout</div>
             </div>
         </div>
     </div>
@@ -21,7 +22,8 @@
                     <div class="server-name" style="text-align: center;">Browse Servers</div>
                 </div>
 
-                <div *ngFor="let server of this.subscribedServers" class="server-row" id="{{server._id}}" (click)="onServerChange(server._id)" [class.selected-server]="server._id === selectedServer._id">
+                <div *ngFor="let server of this.subscribedServers" class="server-row" id="{{server._id}}"
+                     (click)="onServerChange(server._id)" [class.selected-server]="server._id === selectedServer._id">
                     <div class="server-img" style="text-align: center">
                         <img src="{{server.ServerImage}}">
                     </div>
@@ -31,10 +33,23 @@
         </div>
 
         <div class="B">
-            <div class="messages-list">
+            <div class="messages-list" *ngIf="selectedServer">
                 <div class="server-info">
-                    <div class="server-info-name">{{selectedServer? selectedServer.Name : ""}}</div>
-                    <div class="server-info-description">{{selectedServer? selectedServer.Description : ""}}</div>
+                    <div class="server-info-name">{{selectedServer ? selectedServer.Name : ""}}</div>
+                    <div class="server-info-description">{{selectedServer ? selectedServer.Description : ""}}</div>
+                    <div class="server-user-container" >
+                        <select class="user-search" (change)="searchMessages()" [(ngModel)]="searchUserId">
+                            <option value="">All</option>
+                            <option *ngFor="let user of selectedServer.SubscribedUsers" value="{{user._id}}">
+                                {{user.Username}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="server-search-container">
+                        <input type="text" class="message-search" placeholder="Search messages..." [(ngModel)]="searchString" (keydown.enter)="searchMessages($event.target.value)">
+                        <i class="fa fa-search" (click)="searchMessages()"></i>
+                    </div>
                 </div>
 
                 <div class="messages">
@@ -43,7 +58,12 @@
                             <img src="{{message.Sender.ProfileImage}}" class="message-profile-image">
                         </div>
                         <div class="message-text">
-                            <div class="message-header">{{message.Sender.Username + " - " + dateToLocal(message.CreatedDate)}}</div>
+                            <div class="message-header">{{message.Sender.Username + " - " + dateToLocal(message.CreatedDate) + " "}}</div>
+                            <div class="message-edited" *ngIf="message.Edited"> {{"(edited)"}}
+                                <div class="message-edited-tooltip">
+                                    Edited at: {{dateToLocal(message.EditedDate)}}
+                                </div>
+                            </div>
                             <div class="message-content">{{message.Content}}</div>
                         </div>
                         <div class="message-right">
@@ -58,7 +78,9 @@
                 </div>
 
                 <div class="send-message-container">
-                    <input value="{{selectedMessage}}" class="send-message-input" type="text" placeholder="Message {{selectedServer? selectedServer.Name: ''}}" (keyup.enter)="sendMessage($event)" [attr.disabled]="selectedServer? null:''">
+                    <input value="{{selectedMessage}}" class="send-message-input" type="text"
+                           placeholder="Message {{selectedServer? selectedServer.Name: ''}}"
+                           (keyup.enter)="sendMessage($event)" [attr.disabled]="selectedServer? null:''">
                 </div>
             </div>
         </div>

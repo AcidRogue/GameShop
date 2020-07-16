@@ -70,7 +70,7 @@ router.put('/:userId', function (req, res) {
         } else {
             collection.updateOne({_id: new mongodb.ObjectID(userId)}, {$set: user}).then(result => {
                 if (result.result.ok === 1) {
-                    res.status(20).json({message: `Updated user with id ${user._id}`});
+                    res.status(200).json({message: `Updated user with id ${user._id}`});
                 } else {
                     res.status(500).json({message: `Problem with updating user ${user._id}`});
                 }

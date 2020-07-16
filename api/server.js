@@ -15,6 +15,7 @@ const serverRoutes = require('./routes/server.routes');
 const subscriptionRoutes = require('./routes/subscription.routes');
 const unsubscriptionRoutes = require('./routes/unsubscription.routes');
 const messageRoutes = require('./routes/message.routes');
+const searchRoutes = require('./routes/search.routes');
 
 app.set('app', path.join(rootPath, 'app'));
 app.use(logger('dev'));
@@ -29,6 +30,7 @@ app.use('/api/servers', serverRoutes);
 app.use('/api/subscribe', subscriptionRoutes);
 app.use('/api/unsubscribe', unsubscriptionRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/search', searchRoutes);
 
 app.use(function (req, res, next) {
     let err = new Error('Not Found');

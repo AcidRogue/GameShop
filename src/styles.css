@@ -252,7 +252,7 @@ input {
 .server-info {
     text-align: center;
     border-bottom: 1px solid #dadada;
-    padding-bottom: 20px;
+    padding-bottom: 25px;
     color: #555555;
     height: 10%;
 }
@@ -299,9 +299,11 @@ input {
 }
 
 .message-header {
+    display: inline-block;
     color: #aeaeae;
     font-size: 14px;
     margin-bottom: 5px;
+    margin-right: 5px;
 }
 
 .message-img, .message-text {
@@ -348,7 +350,7 @@ input {
 }
 
 .dropdown-menu div:not(:last-child){
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #a5a5a5;
 }
 
 .dropdown-menu div:hover {
@@ -370,6 +372,68 @@ input {
 .edit-message i{
     color: #00b4ff;
 }
+
+.message-edited{
+    display: inline-block;
+    color: #aeaeae;
+    font-size: 14px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.message-edited .message-edited-tooltip {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 7px;
+    position: absolute;
+    z-index: 1;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.message-edited:hover .message-edited-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.server-search-container{
+    float: right;
+}
+
+.message-search{
+    margin-right: 20px;
+    border: none;
+    border-bottom: 1px solid #dadada;
+    background-color: transparent;
+    outline: none;
+    transition: border-bottom-color 0.2s;
+    font-size: 14px;
+    padding-bottom: 3px;
+}
+
+.message-search:focus{
+    border-bottom: 1px solid #64b1cb;
+}
+
+.server-user-container{
+    float: left;
+}
+
+.user-search{
+    border: none;
+    border-bottom: 1px solid #dadada;
+    background-color: transparent;
+    outline: none;
+    font-size: 14px;
+    padding-bottom: 3px;
+}
+
+
 
 
 
