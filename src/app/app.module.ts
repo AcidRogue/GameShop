@@ -13,6 +13,9 @@ import {ServerBackendService} from "./http/server-http";
 import {UserBackendService} from "./http/user-http";
 import { UserComponent } from './user/user.component';
 import { UserPopupComponent } from './user-popup/user-popup.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {OVERLAY_PROVIDERS, OverlayModule} from "@angular/cdk/overlay";
 
 @NgModule({
     declarations: [
@@ -27,13 +30,18 @@ import { UserPopupComponent } from './user-popup/user-popup.component';
         AppRoutingModule,
         FormsModule,
         AuthModule,
-        HttpClientModule
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatDialogModule
     ],
     providers: [
         StorageService,
         MessageBackendService,
         ServerBackendService,
         UserBackendService,
+        MatDialog,
+        OverlayModule,
+        OVERLAY_PROVIDERS,
     ],
     bootstrap: [AppComponent]
 })

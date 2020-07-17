@@ -1,5 +1,19 @@
-<div class="user-popup">
-    <div class="modal-close">
+<div class="user-popup" *ngIf="selectedUser">
+    <div class="user-popup-top">
+        <div class="user-popup-img-container">
+            <img src="{{selectedUser.ProfileImage}}">
+        </div>
+        {{selectedUser.Username}}
+        {{selectedUser.Email}}
+    </div>
 
+    <div class="user-popup-bottom">
+        {{selectedUser.FirstName + " " + selectedUser.LastName}}
+
+        <div class="user-popup-servers">
+            <div *ngFor="let server of selectedUser.SubscribedServers" class="user-popup-server">
+                <img src="{{server.ServerImage}}">
+            </div>
+        </div>
     </div>
 </div>

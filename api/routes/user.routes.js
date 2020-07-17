@@ -15,14 +15,26 @@ router.get('/:userId', function (req, res) {
     const db = req.app.locals.db;
     const params = req.params;
 
-    db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}, {projection: {Password: 0}}).then(user => {
+    db.collection('users').findOne({_id: new mongodb.ObjectID(params.userId)}).then(user => {
         if (user) {
-            res.status(200).json(user);
+            user.SubscribedServers = [];
+            db.collection('subscriptions').find({UserId: new mongodb.ObjectID(params.userId)}).toArray().then(servers => {
+                let ids = [];
+                for(let i = 0; i < servers.length; i++){
+                    ids.push(servers[i].ServerId);
+                }
+                db.collection('servers').find({_id: {$in: ids}}).toArray().then(result => {
+                    if(result){
+                        user.SubscribedServers = result;
+                        res.status(200).json(user);
+                    }
+                })
+            })
         } else {
             res.status(404).json(`User with id ${params.userId} does not exist`);
         }
     })
-})
+});
 
 router.post('/', function (req, res) {
     const db = req.app.locals.db;

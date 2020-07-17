@@ -17,7 +17,19 @@ router.get('/:serverId', function (req, res) {
 
     db.collection('servers').findOne({_id: new mongodb.ObjectID(params.serverId)}).then(server => {
         if (server) {
-            res.status(200).json(server);
+            server.SubscribedUsers = [];
+            db.collection('subscriptions').find({ServerId: new mongodb.ObjectID(params.serverId)}).toArray().then(users =>{
+                let ids = [];
+                for(let i = 0; i < users.length; i++){
+                    ids.push(users[i].UserId);
+                }
+                db.collection('users').find({_id: {$in: ids}}).toArray().then(result => {
+                    if(result){
+                        server.SubscribedUsers = result;
+                        res.status(200).json(server);
+                    }
+                })
+            })
         } else {
             res.status(404).json(`Server with id ${params.serverId} does not exist`);
         }
@@ -32,7 +44,6 @@ router.post('/', function (req, res) {
         Name: 'required|max:20',
         Description: 'string',
         CreatedDate: 'string',
-        SubscribedUsers: 'required|array',
         ServerImage: 'required|string'
     }).then(() => {
         const collection = db.collection('servers');

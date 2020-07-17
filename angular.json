@@ -23,9 +23,12 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": [ "./node_modules/jquery/dist/jquery.min.js" ]
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -118,6 +121,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "webchatroom"
 }

@@ -7,6 +7,8 @@ import {ServerBackendService} from "../http/server-http";
 import {MessageBackendService} from "../http/message-http";
 import * as $ from 'jquery';
 import * as moment from 'moment';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {UserPopupComponent} from "../user-popup/user-popup.component";
 
 @Component({
     selector: 'app-dashboard',
@@ -29,7 +31,8 @@ export class DashboardComponent implements OnInit {
                 private router: Router,
                 private userBackendService: UserBackendService,
                 private serverBackendService: ServerBackendService,
-                private messageBackendService: MessageBackendService) {
+                private messageBackendService: MessageBackendService,
+                public dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -142,7 +145,11 @@ export class DashboardComponent implements OnInit {
     }
 
     onUserSelect(userId: string) {
-        this.router.navigate(['/users/' + userId]);
+        this.dialog.open(UserPopupComponent, {
+            data: {
+                UserId: userId
+            },
+        });
     }
 
     openProfile() {

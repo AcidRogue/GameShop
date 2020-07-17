@@ -87,7 +87,7 @@
 
         <div class="C">
             <div class="users-list">
-                <div *ngFor="let subscribedUser of this.subscribedUsers" class="user-row">
+                <div *ngFor="let subscribedUser of this.subscribedUsers" class="user-row" (click)="onUserSelect(subscribedUser._id)">
                     <div class="subscribed-user-img">
                         <img src="{{subscribedUser.ProfileImage}}">
                     </div>
