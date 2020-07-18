@@ -1,0 +1,26 @@
+<div class="server-container">
+    <form #serverForm="ngForm" (ngSubmit)="createServer(serverForm)" name="serverForm">
+        <div class="server-form-left">
+            <img src="{{serverImg}}">
+        </div>
+        <div class="server-form-right">
+            <div class="login-form-field">
+                <input type="text" name="name" placeholder="Server Name" ngModel required>
+            </div>
+
+            <div class="login-form-field">
+                <input type="text" name="description" placeholder="Server Description" ngModel required>
+            </div>
+
+            <div class="login-form-field">
+                <input type="text" name="image" placeholder="Server Image" [(ngModel)]="serverSrc" (blur)="onImageChange()">
+            </div>
+
+            <div *ngIf="serverError" class="auth-error">{{serverError}}</div>
+
+            <div class="login-form-btn-container">
+                <button id="login" type="submit" class="sign-in" [disabled]="!serverForm.valid">CREATE SERVER</button>
+            </div>
+        </div>
+    </form>
+</div>

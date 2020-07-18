@@ -19,7 +19,6 @@ export class UserPopupComponent implements OnInit {
         this.userBackendService.getUserById(this.data.UserId).subscribe(user => {
             if(user){
                 this.selectedUser = user;
-                console.log(this.selectedUser)
             }
         }, err => {
             console.log("User not found");
@@ -29,5 +28,4 @@ export class UserPopupComponent implements OnInit {
     ngOnDestroy(){
 
     }
-
 }

@@ -2,6 +2,11 @@
     <div class="dashboard-top">
         <img id="user-pfp" src="{{currentUser.ProfileImage}}">
         <div class="user-data">Welcome, {{currentUser.Username}}</div>
+
+        <div class="create-server">
+            <button (click)="redirectToNewServer()">CREATE SERVER</button>
+        </div>
+
         <div class="user-options-icon">
             <i class="fa-2x fa fa-cog"></i>
         </div>
@@ -21,6 +26,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

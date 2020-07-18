@@ -6,8 +6,7 @@ import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-user',
-    templateUrl: './user.component.html',
-    styleUrls: ['../auth/auth.component.css']
+    templateUrl: './user.component.html'
 })
 export class UserComponent implements OnInit {
     currentUser;

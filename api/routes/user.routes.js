@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const indicative = require('indicative').validator;
 const mongodb = require('mongodb');
+const bcrypt = require('bcrypt');
 
 router.get('/', function (req, res) {
     const db = req.app.locals.db;
@@ -20,11 +21,15 @@ router.get('/:userId', function (req, res) {
             user.SubscribedServers = [];
             db.collection('subscriptions').find({UserId: new mongodb.ObjectID(params.userId)}).toArray().then(servers => {
                 let ids = [];
-                for(let i = 0; i < servers.length; i++){
+                for (let i = 0; i < servers.length; i++) {
                     ids.push(servers[i].ServerId);
                 }
-                db.collection('servers').find({_id: {$in: ids}}).toArray().then(result => {
-                    if(result){
+                db.collection('servers').find({
+                    _id: {
+                        $in: ids
+                    }
+                }).toArray().then(result => {
+                    if (result) {
                         user.SubscribedServers = result;
                         res.status(200).json(user);
                     }
@@ -44,9 +49,7 @@ router.post('/', function (req, res) {
         Username: 'required|string',
         Password: 'required|string|min:2|max:20',
         FirstName: 'string',
-        LastName: 'string',
-        Role: 'required',
-        SubscribedServers: 'required|array'
+        LastName: 'string'
     }).then(() => {
         const collection = db.collection('users');
 
@@ -54,6 +57,7 @@ router.post('/', function (req, res) {
             if (existingUser) {
                 res.status(303).json("User with this email already exists")
             } else {
+                user.Password = bcrypt.hashSync(user.Password, 10);
                 user.CreatedDate = new Date().toISOString();
                 collection.insertOne(user).then(result => {
                     if (result.result.ok === 1) {
@@ -61,13 +65,14 @@ router.post('/', function (req, res) {
                     } else {
                         res.status(500).json({message: "Problem with creating a user"});
                     }
-                })
+                });
             }
         })
     }).catch(errors => {
         res.status(500).json({errors: errors})
     });
-});
+})
+;
 
 router.put('/:userId', function (req, res) {
     const db = req.app.locals.db;
@@ -89,33 +94,6 @@ router.put('/:userId', function (req, res) {
             })
         }
     })
-})
-;
-
-/*// DELETE users list
-router.delete('/:userId', function (req, res) {
-    const db = req.app.locals.db;
-    const params = req.params;
-    indicative.validate(params, {userId: 'required|regex:^[0-9a-f]{24}$'})
-        .then(() => {
-            db.collection('users', function (err, users_collection) {
-                if (err) throw err;
-                users_collection.findOneAndDelete({_id: new mongodb.ObjectID(params.userId)},
-                    (err, result) => {
-                        if (err) throw err;
-                        if (result.ok) {
-                            replaceId(result.value);
-                            res.json(result.value);
-                        } else {
-                            error(req, res, 404, `User with Id=${params.userId} not found.`, err);
-                        }
-                    });
-            });
-        }).catch(errors => {
-        error(req, res, 400, 'Invalid user ID: ' + util.inspect(errors))
-    });
 });
-*!/*/
-
 
 module.exports = router;

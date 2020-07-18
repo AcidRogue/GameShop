@@ -17,7 +17,7 @@
             <div class="server-list">
                 <div class="server-row" (click)="serverList()">
                     <div class="server-img" style="text-align: center">
-                        <i class="fa fa-plus-circle add-server"></i>
+                        <i class="fa fa-list add-server"></i>
                     </div>
                     <div class="server-name" style="text-align: center;">Browse Servers</div>
                 </div>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="message-content">{{message.Content}}</div>
                         </div>
-                        <div class="message-right">
+                        <div class="message-right" *ngIf="message.Sender._id === currentUser._id">
                             <div class="delete-message" (click)="deleteMessage(message._id)">
                                 <i class="fa fa-trash-o manage-message"></i>
                             </div>

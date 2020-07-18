@@ -50,7 +50,7 @@ router.post('/', function (req, res) {
 
         collection.insertOne(server).then(result => {
             if (result.result.ok === 1) {
-                res.status(201).json({server: server, message: "Created new server"});
+                res.status(201).json(server);
             } else {
                 res.status(500).json({message: "Problem with creating a server"});
             }

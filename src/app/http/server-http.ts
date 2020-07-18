@@ -11,6 +11,10 @@ export class ServerBackendService {
     constructor(private http: HttpClient) {
     }
 
+    createServer(serverData: any): Observable<Server>{
+        return this.http.post<Server>(this.url + '/api/servers/', serverData);
+    }
+
     getServerById(id: string): Observable<Server>{
         return this.http.get<Server>(this.url + '/api/servers/' + id);
     }

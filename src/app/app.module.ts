@@ -16,6 +16,7 @@ import { UserPopupComponent } from './user-popup/user-popup.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {OVERLAY_PROVIDERS, OverlayModule} from "@angular/cdk/overlay";
+import { NewServerComponent } from './new-server/new-server.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {OVERLAY_PROVIDERS, OverlayModule} from "@angular/cdk/overlay";
         DashboardComponent,
         ServersComponent,
         UserComponent,
-        UserPopupComponent
+        UserPopupComponent,
+        NewServerComponent
     ],
     imports: [
         BrowserModule,

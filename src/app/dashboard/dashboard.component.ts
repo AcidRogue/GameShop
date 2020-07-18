@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {StorageService} from "../services/storage.service";
-import {User} from "../models/user";
 import {UserBackendService} from "../http/user-http";
 import {ServerBackendService} from "../http/server-http";
 import {MessageBackendService} from "../http/message-http";
 import * as $ from 'jquery';
 import * as moment from 'moment';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {UserPopupComponent} from "../user-popup/user-popup.component";
 
 @Component({
@@ -136,12 +135,8 @@ export class DashboardComponent implements OnInit {
         });
     }
 
-    dateToLocal(date: moment.Moment): string {
-        return this.formatDate(moment.utc(date).local().format());
-    }
-
-    formatDate(date: string): string {
-        return moment(date).format("DD/MM/YYYY hh:mm");
+    dateToLocal(date: string): string {
+        return moment.utc(date).local().format("DD/MM/YYYY HH:mm");
     }
 
     onUserSelect(userId: string) {

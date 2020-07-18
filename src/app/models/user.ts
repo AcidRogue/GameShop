@@ -5,7 +5,6 @@ export class User{
     Email: string;
     Password: string;
     ProfileImage: string;
-    Role: number;
     SubscribedServers: any[];
     CreatedDate?: string
 }

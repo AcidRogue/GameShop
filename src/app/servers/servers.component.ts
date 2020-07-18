@@ -73,4 +73,8 @@ export class ServersComponent implements OnInit {
             }
         })
     }
+
+    redirectToNewServer(){
+        this.router.navigate(['new-server'])
+    }
 }

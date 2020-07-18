@@ -7,14 +7,13 @@ import {User} from "../../models/user";
 
 @Component({
     selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['../auth.component.css']
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
     registerError: boolean;
     registerErrorMessage: string;
 
-    pfpSrc: string = "";
+    pfpSrc: string = "https://3.bp.blogspot.com/-qDc5kIFIhb8/UoJEpGN9DmI/AAAAAAABl1s/BfP6FcBY1R8/s1600/BlueHead.jpg";
     pfpInput: string;
 
     constructor(private authService: AuthService, private router: Router, private storageService: StorageService) {
@@ -47,7 +46,6 @@ export class RegisterComponent implements OnInit {
             Email: email,
             Password: password1,
             ProfileImage: this.pfpSrc,
-            Role: 1,
             SubscribedServers: []
         };
 
@@ -67,7 +65,7 @@ export class RegisterComponent implements OnInit {
             this.pfpSrc = this.pfpInput;
         };
         img.onerror = () => {
-            this.pfpSrc = "../../../assets/empty-pfp.png";
+            this.pfpSrc = "https://3.bp.blogspot.com/-qDc5kIFIhb8/UoJEpGN9DmI/AAAAAAABl1s/BfP6FcBY1R8/s1600/BlueHead.jpg";
         };
         img.src = this.pfpInput;
     }
